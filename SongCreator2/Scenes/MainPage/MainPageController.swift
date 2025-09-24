@@ -120,7 +120,16 @@ class MainPageController: UIViewController {
         let sheetView = PointedBottomSheet(pointerX: buttonCenterX)
         let hosting = UIHostingController(rootView: sheetView)
 
+        let backgroundOverlay = UIView()
+        backgroundOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        backgroundOverlay.frame = view.bounds
+        backgroundOverlay.alpha = 0
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
+        backgroundOverlay.addGestureRecognizer(tapGesture)
+
         addChild(hosting)
+        view.addSubview(backgroundOverlay)
         view.addSubview(hosting.view)
         hosting.didMove(toParent: self)
 
@@ -147,6 +156,7 @@ class MainPageController: UIViewController {
             initialSpringVelocity: 0.3,
             options: [.curveEaseInOut],
             animations: {
+                backgroundOverlay.alpha = 1
                 hosting.view.transform = .identity
                 hosting.view.layer.cornerRadius = 20
                 hosting.view.backgroundColor = .black.withAlphaComponent(1.0)
@@ -160,52 +170,52 @@ class MainPageController: UIViewController {
             }
         )
     }
-    
-    
+
+    @objc private func backgroundTapped() {
+        addSongDismiss()
+    }
+
     @objc private func addSongDismiss() {
         let buttonCenterX = view.convert(addSong.center, to: view).x
         let buttonCenterY = view.convert(addSong.center, to: view).y
 
         let sheetView = PointedBottomSheet(pointerX: buttonCenterX)
-        let hosting = UIHostingController(rootView: sheetView)
-
-        addChild(hosting)
-        view.addSubview(hosting.view)
-        hosting.didMove(toParent: self)
+//        let hosting = UIHostingController(rootView: sheetView)
 
         let targetHeight: CGFloat = 300
         let targetY = view.bounds.height - targetHeight - 92
 
         let initialY = buttonCenterY - targetHeight/2
         
-        hosting.view.frame = CGRect(
-            x: 0,
-            y: initialY,
-            width: self.view.bounds.width,
-            height: targetHeight
-        )
+        let backgroundOverlay = view.subviews.first { $0.backgroundColor == UIColor.black.withAlphaComponent(0.3) }
+        guard let hosting = children.first(where: { $0 is UIHostingController<PointedBottomSheet> }) as? UIHostingController<PointedBottomSheet>  else { return  }
 
-        hosting.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-        hosting.view.backgroundColor = .black.withAlphaComponent(0.0)
-        hosting.view.alpha = 1
         
         UIView.animate(
             withDuration: 0.5,
             delay: 0,
-            usingSpringWithDamping: 0.7,
-            initialSpringVelocity: 0.3,
             options: [.curveEaseInOut],
             animations: {
-                hosting.view.transform = .identity
-                hosting.view.layer.cornerRadius = 20
-                hosting.view.backgroundColor = .black.withAlphaComponent(1.0)
-                
+                backgroundOverlay?.alpha = 0
+
+
                 hosting.view.frame = CGRect(
                     x: 0,
-                    y: targetY,
+                    y: initialY,
                     width: self.view.bounds.width,
                     height: targetHeight
                 )
+                hosting.view.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+
+                hosting.dismiss(animated: false, completion: nil)
+                       
+            },
+            //clean up the views, this is necessary since we added them in the first place
+            completion: { _ in
+                backgroundOverlay?.removeFromSuperview()
+                hosting.willMove(toParent: nil)
+                hosting.view.removeFromSuperview()
+                hosting.removeFromParent()
             }
         )
     }
