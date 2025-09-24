@@ -117,7 +117,7 @@ class MainPageController: UIViewController {
     @objc private func addSongTapped() {
         let buttonCenterX = view.convert(addSong.center, to: view).x
         let buttonCenterY = view.convert(addSong.center, to: view).y
-        let sheetView = PointedBottomSheet(pointerX: buttonCenterX)
+        let sheetView = AddSongBottomSheet(pointerX: buttonCenterX)
         let hosting = UIHostingController(rootView: sheetView)
 
         let backgroundOverlay = UIView()
@@ -179,7 +179,7 @@ class MainPageController: UIViewController {
         let buttonCenterX = view.convert(addSong.center, to: view).x
         let buttonCenterY = view.convert(addSong.center, to: view).y
 
-        let sheetView = PointedBottomSheet(pointerX: buttonCenterX)
+        let sheetView = AddSongBottomSheet(pointerX: buttonCenterX)
 //        let hosting = UIHostingController(rootView: sheetView)
 
         let targetHeight: CGFloat = 300
@@ -188,7 +188,7 @@ class MainPageController: UIViewController {
         let initialY = buttonCenterY - targetHeight/2
         
         let backgroundOverlay = view.subviews.first { $0.backgroundColor == UIColor.black.withAlphaComponent(0.3) }
-        guard let hosting = children.first(where: { $0 is UIHostingController<PointedBottomSheet> }) as? UIHostingController<PointedBottomSheet>  else { return  }
+        guard let hosting = children.first(where: { $0 is UIHostingController<AddSongBottomSheet> }) as? UIHostingController<AddSongBottomSheet>  else { return  }
 
         
         UIView.animate(
