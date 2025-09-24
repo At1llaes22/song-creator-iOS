@@ -5,83 +5,136 @@
 //  Created by atillaemresöylemez on 24.09.2025.
 //
 
-struct SongModel {
+import Foundation
+import CoreData
+
+// MARK: - Musical Models (Keep as structs for business logic)
+public struct SongModel {
     var projectName: String
     var songNames: [String]?
     var key: Key?
     var bpm: Int?
     var timeSignature: String = "4/4"
-    
-//    var sections:
+    var sections: [SectionModel]?
 }
 
-struct SectionModel {
+public struct SectionModel {
     var name: String
     var chords: [Chord]?
     var key: Key?
     var extraNotes: String?
 }
 
-struct Key {
+public struct Key: Codable {
     var keyCenter: Note
     var mode: Mode
 }
 
-struct Note {
+public struct Chord: Codable {
+    var degree: ScaleDegree
+    var quality: ChordQuality
+    
+    func toString() -> String {
+        return (degree.rawValue + " " + quality.rawValue )
+    }
+    
+    static func fromString(_ string: String) -> Chord? {
+        let components = string.split(separator: " ").map(String.init)
+        
+        guard components.count == 2 else {
+            return nil
+        }
+        
+        let degreeString = components[0]
+        let qualityString = components[1]
+        
+        let degree = ScaleDegree.from(string: degreeString)
+        let quality = ChordQuality.from(string: qualityString)
+        
+        return Chord(degree: degree, quality: quality)
+    }
+    
+}
+
+public struct Note: Codable {
     var pitch: PitchClass
     var accidental: Accidental = Accidental.natural
 }
 
 
-struct Chord {
-    var degree: Note
-    var quality: ChordQuality
+// MARK: - Enums
+enum ScaleDegree: String, CaseIterable, Codable {
+    case I = "I"
+    case i = "i"
+    case II = "II"
+    case ii = "ii"
+    case III = "III"
+    case iii = "iii"
+    case IV = "IV"
+    case iv = "iv"
+    case V = "V"
+    case v = "v"
+    case vi = "vi"
+    case VII = "VII"
+    case vii = "vii"
+    
+    static func from(string: String) -> ScaleDegree {
+            return ScaleDegree(rawValue: string) ?? .I
+    }
+    
 }
 
 
 
-
-//MARK: Musical Definitions- Enums
-enum ScaleDegree {
-    case I
-    case i
-    case II
-    case ii
-    case III
-    case iii
-    case IV
-    case iv
-    case V
-    case v
-    case vi
-    case VII
-    case vii
+enum ChordQuality: String, CaseIterable, Codable {
+    case major = "major"
+    case minor = "minor"
+    case diminished = "diminished"
+    case augmented = "augmented"
+    case maj7 = "maj7"
+    case min7 = "min7"
+    case seventh = "seventh"
+    case add6 = "add6"
+    case add9 = "add9"
+    
+    static func from(string: String) -> ChordQuality {
+            return ChordQuality(rawValue: string) ?? .major
+    }
+    
 }
 
-enum ChordQuality {
-    case major
-    case minor
-    case diminished
-    case augmented
-    case maj7
-    case min7
-    case seventh
-    case add6
-    case add9
-//    extend
+enum PitchClass: String, CaseIterable, Codable {
+    case C = "C"
+    case D = "D"
+    case E = "E"
+    case F = "F"
+    case G = "G"
+    case A = "A"
+    case B = "B"
+    
+    static func from(string: String) -> PitchClass {
+            return PitchClass(rawValue: string) ?? .C
+    }
 }
 
-enum PitchClass {
-    case C, D, E, F, G, A, B
+enum Accidental: String, CaseIterable, Codable {
+    case natural = "natural"
+    case sharp = "sharp"
+    case flat = "flat"
+    
+    static func from(string: String) -> Accidental {
+            return Accidental(rawValue: string) ?? .natural
+    }
 }
 
-enum Accidental {
-    case natural
-    case sharp
-    case flat
+enum Mode: String, CaseIterable, Codable {
+    case major = "major"
+    case minor = "minor"
+    
+    static func from(string: String) -> Mode {
+            return Mode(rawValue: string) ?? .major
+    }
 }
 
-enum Mode {
-    case major
-    case minor
-}
+
+

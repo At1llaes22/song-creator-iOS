@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1983F6932E840E9100679948 /* SongProjects.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1983F6912E840E9100679948 /* SongProjects.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		1983F5CF2E82C84900679948 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		1983F5C12E82C84700679948 /* SongCreator2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SongCreator2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1983F5CE2E82C84900679948 /* SongCreator2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SongCreator2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1983F5D82E82C84900679948 /* SongCreator2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SongCreator2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1983F6922E840E9100679948 /* SongProjects.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SongProjects.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		1983F5B82E82C84700679948 = {
 			isa = PBXGroup;
 			children = (
+				1983F6912E840E9100679948 /* SongProjects.xcdatamodeld */,
 				1983F5C32E82C84700679948 /* SongCreator2 */,
 				1983F5D12E82C84900679948 /* SongCreator2Tests */,
 				1983F5DB2E82C84900679948 /* SongCreator2UITests */,
@@ -236,6 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1983F6932E840E9100679948 /* SongProjects.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,6 +547,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1983F6912E840E9100679948 /* SongProjects.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1983F6922E840E9100679948 /* SongProjects.xcdatamodel */,
+			);
+			currentVersion = 1983F6922E840E9100679948 /* SongProjects.xcdatamodel */;
+			path = SongProjects.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1983F5B92E82C84700679948 /* Project object */;
 }

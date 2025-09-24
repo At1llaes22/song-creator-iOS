@@ -8,7 +8,7 @@
 class MainPageViewModel: MainPageViewModelProtocol {
     var delegate: (any MainPageViewModelDelegate)?
     
-    func makeRequest() {
+    func createProject() {
         print("")
     }
     

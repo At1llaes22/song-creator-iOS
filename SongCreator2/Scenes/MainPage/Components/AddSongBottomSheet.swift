@@ -16,7 +16,7 @@ struct AddSongBottomSheet: View {
         VStack {
             PointyBottomSheet(pointerX: pointerX, isPresented: $isPresented) {
                 VStack(spacing: 20) {
-                    Text("Add New Song")
+                    Text("Add Project")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .padding(.top, 20)
