@@ -6,18 +6,33 @@
 //
 
 class MainPageViewModel: MainPageViewModelProtocol {
+    var songs: [SongModel] = []
+    
+    
+    private let service: SongService
+    
+    
+    init(service: SongService) {
+        self.service = service
+    }
+    
+    var delegate: MainPageViewModelDelegate?
+
+    
+    
     func makeRequest() {
         print("")
     }
     
-    var delegate: (any MainPageViewModelDelegate)?
-    
-    func createProject() {
-        print("")
-    }
     
     func createSong(songModel: SongModel) {
-        print("")
+        service.createSong(from: songModel)
+    }
+    
+    func fetchSongs() {
+        self.songs = service.fetchAllSongs()
+        print("Songs fetched: \(self.songs)")
+        
     }
     
     

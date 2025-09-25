@@ -46,8 +46,11 @@ extension SongEntity {
         get {
             guard ((keyCenterRaw?.isEmpty) == nil) else { return nil }
             //TODO: fix force unwraps
-            let pitch = PitchClass.from(string: keyCenterRaw!)
-            let mode = Mode.from(string: modeRaw!)
+            let pitch = PitchClass.C
+            let mode = Mode.major
+
+//            let pitch = PitchClass.from(string: keyCenterRaw!)
+//            let mode = Mode.from(string: modeRaw!)
             return Key(keyCenter: Note(pitch: pitch), mode: mode)
         }
         set {

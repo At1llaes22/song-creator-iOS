@@ -7,10 +7,10 @@
 
 class MainPageBuilder {
     static func create() -> MainPageController{
-        let v = MainPageController()
-//        let service = Services()
-//        let viewModel = AktuelPriceCheckViewModel(service: service, prCode: prCode)
-//        v.viewModel = viewModel
+//        let v = MainPageController()
+        let service = SongService()
+        let viewModel = MainPageViewModel(service: service)
+        let v = MainPageController(viewModel: viewModel)
         return v
     }
 }

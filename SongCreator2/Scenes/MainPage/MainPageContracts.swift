@@ -8,12 +8,13 @@
 protocol MainPageViewModelProtocol {
     var delegate : MainPageViewModelDelegate? { get set }
     func makeRequest()
+    func fetchSongs()
     func createSong(songModel: SongModel)
 }
 
 
 
-protocol MainPageViewModelDelegate {
+protocol MainPageViewModelDelegate: MainPageController {
 //    func handleOutput
     func navigate()
 }

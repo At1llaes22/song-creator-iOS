@@ -10,10 +10,17 @@ import UIKit
 import SwiftUI
 
 class MainPageController: UIViewController {
-    private let circularButtonWidth: CGFloat
     
-    init() {
+    
+    var viewModel: MainPageViewModelProtocol
+        
+        
+    private let circularButtonWidth: CGFloat
+
+    
+    init(viewModel: MainPageViewModelProtocol) {
         self.circularButtonWidth = CGFloat(60)
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -117,7 +124,7 @@ class MainPageController: UIViewController {
     @objc private func addSongTapped() {
         let buttonCenterX = view.convert(addSong.center, to: view).x
         let buttonCenterY = view.convert(addSong.center, to: view).y
-        let sheetView = AddSongBottomSheet(pointerX: buttonCenterX)
+        let sheetView = AddSongBottomSheet(pointerX: buttonCenterX, viewModel: AddSongBottomSheetViewModel(service: SongService()))
         let hosting = UIHostingController(rootView: sheetView)
 
         let backgroundOverlay = UIView()
@@ -179,7 +186,6 @@ class MainPageController: UIViewController {
         let buttonCenterX = view.convert(addSong.center, to: view).x
         let buttonCenterY = view.convert(addSong.center, to: view).y
 
-        let sheetView = AddSongBottomSheet(pointerX: buttonCenterX)
 //        let hosting = UIHostingController(rootView: sheetView)
 
         let targetHeight: CGFloat = 300
@@ -216,6 +222,7 @@ class MainPageController: UIViewController {
                 hosting.willMove(toParent: nil)
                 hosting.view.removeFromSuperview()
                 hosting.removeFromParent()
+                self.viewModel.fetchSongs()
             }
         )
     }
