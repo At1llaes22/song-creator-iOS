@@ -23,13 +23,13 @@ struct PointyBottomSheet<Content: View>: View {
     var body: some View {
         ZStack {
             PointedSheetShape(pointerX: pointerX)
-                .fill(Color.adaptiveSecondaryBackground)
+                .fill(Color.adaptiveWhite)
                 .overlay(
                     PointedSheetShape(pointerX: pointerX)
                         .stroke(Color.adaptiveBorder, lineWidth: 1)
                 )
 //                .frame(height: height)
-                .shadow(radius: 10)
+//                .shadow(radius: 10)
                 
             
             content

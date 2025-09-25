@@ -8,7 +8,7 @@ import SwiftUI
 
 public struct AppDropdown: View {
     
-    //TODO: MAKE IT SCROLLABLE, NOW IT SELECTS INSTANTLY // FIX THE COLORS
+    //TODO: // FIX THE COLORS
     
     let options: [String]
     
@@ -76,6 +76,8 @@ public struct AppDropdown: View {
                                     )
                                 .padding(.horizontal, 20)
                                 .frame(width: menuWdith, height: buttonHeight, alignment: .leading)
+
+                                
                                 
                             }
                         }
@@ -91,8 +93,8 @@ public struct AppDropdown: View {
                 }
                 
             }
-            .foregroundStyle(Color.white)
-            .background(RoundedRectangle(cornerRadius: 16).fill(Color.black))
+            .foregroundStyle(Color.adaptiveBlack)
+            .background(RoundedRectangle(cornerRadius: 16).fill(Color.adaptiveWhite))
             
         }
         .frame(width: menuWdith, height: buttonHeight, alignment: .top)
