@@ -6,9 +6,17 @@
 //
 
 class MainPageViewModel: MainPageViewModelProtocol {
+    func makeRequest() {
+        print("")
+    }
+    
     var delegate: (any MainPageViewModelDelegate)?
     
     func createProject() {
+        print("")
+    }
+    
+    func createSong(songModel: SongModel) {
         print("")
     }
     

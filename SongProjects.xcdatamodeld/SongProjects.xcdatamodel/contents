@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788.4" systemVersion="24G90" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="Song" representedClassName="Song" syncable="YES" codeGenerationType="class"/>
+    <entity name="SectionEntity" representedClassName=".SectionEntity" syncable="YES">
+        <attribute name="chords" optional="YES" attributeType="Transformable"/>
+        <attribute name="extraNotes" optional="YES" attributeType="String"/>
+        <attribute name="keyCenterRaw" optional="YES" attributeType="String"/>
+        <attribute name="modeRaw" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="song" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SongEntity" inverseName="sections" inverseEntity="SongEntity"/>
+    </entity>
+    <entity name="SongEntity" representedClassName=".SongEntity" syncable="YES">
+        <attribute name="bpm" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="keyCenterRaw" optional="YES" attributeType="String"/>
+        <attribute name="modeRaw" optional="YES" attributeType="String"/>
+        <attribute name="projectName" attributeType="String"/>
+        <attribute name="songNames" optional="YES" attributeType="Transformable"/>
+        <attribute name="timeSignature" optional="YES" attributeType="String"/>
+        <relationship name="sections" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="SectionEntity" inverseName="song" inverseEntity="SectionEntity"/>
+    </entity>
 </model>

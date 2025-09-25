@@ -48,8 +48,8 @@ extension CoreDataStack {
         }
     }
     
-    func delete(item: SongModel) {
-        persistentContainer.viewContext.delete(item)
-        save()
-    }
+//    func delete(item: SongModel) {
+//        persistentContainer.viewContext.delete(item)
+//        save()
+//    }
 }

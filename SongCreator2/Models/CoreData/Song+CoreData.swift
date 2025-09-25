@@ -51,6 +51,7 @@ extension SongEntity {
             return Key(keyCenter: Note(pitch: pitch), mode: mode)
         }
         set {
+            //TODO: key center is not taking the accdental into account
             keyCenterRaw = newValue?.keyCenter.pitch.rawValue ?? ""
             modeRaw = newValue?.mode.rawValue ?? ""
         }
