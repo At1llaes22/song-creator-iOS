@@ -8,4 +8,8 @@ import UIKit
 
 class UIConstants {
     static let genericCornerRadius = CGFloat(12)
+    static let smallerCornerRadius = CGFloat(8)
+    static let smallestCornerRadius = CGFloat(4)
+
+    
 }
