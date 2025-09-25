@@ -13,6 +13,8 @@ struct AddSongBottomSheet: View {
         .map({ "\($0)" })
     let accidentalList = Accidental.allCases
         .map({ "\($0)" })
+    
+    
 
     
     @State private var isPresented = false
@@ -31,6 +33,10 @@ struct AddSongBottomSheet: View {
     @State private var bpm: String = ""
     @State private var selectedAccidental: Accidental?
     @ObservedObject var viewModel: AddSongBottomSheetViewModel
+    
+    
+    let onSaveCompleted: (() -> Void)?
+
     
     var body: some View {
         VStack {
@@ -67,6 +73,9 @@ struct AddSongBottomSheet: View {
                             print("Saving: \(projectName)")
                             isPresented = false
                             viewModel.onAddSong(songName: projectName)
+                            if let onSaveCompleted{
+                                onSaveCompleted()
+                            }
                         }
                         .padding(.bottom, 40)
                         

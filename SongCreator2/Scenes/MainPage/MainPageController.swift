@@ -13,7 +13,7 @@ class MainPageController: UIViewController {
     
     
     var viewModel: MainPageViewModelProtocol
-    private var songs: [SongModel] = []
+//    private var songs: [SongModel] = []
             
         
     private let circularButtonWidth: CGFloat
@@ -63,9 +63,7 @@ class MainPageController: UIViewController {
         stackView.alignment = .leading
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(SongsListItem(name: "Song 1"))
-        stackView.addArrangedSubview(SongsListItem(name: "Song 2"))
-        stackView.addArrangedSubview(SongsListItem(name: "Song 3"))
+
         return stackView
     }()
     
@@ -117,6 +115,9 @@ class MainPageController: UIViewController {
             
             
         ])
+        loadSongList()
+        
+        
         
         addSong.layer.cornerRadius = circularButtonWidth / 2
 
@@ -128,7 +129,11 @@ class MainPageController: UIViewController {
     @objc private func addSongTapped() {
         let buttonCenterX = view.convert(addSong.center, to: view).x
         let buttonCenterY = view.convert(addSong.center, to: view).y
-        let sheetView = AddSongBottomSheet(pointerX: buttonCenterX, viewModel: AddSongBottomSheetViewModel(service: SongService()))
+        let sheetView = AddSongBottomSheet(pointerX: buttonCenterX, viewModel: AddSongBottomSheetViewModel(service: SongService()), onSaveCompleted: {
+            self.viewModel.fetchSongs()
+            self.loadSongList()
+            self.addSongDismiss()
+        })
         let hosting = UIHostingController(rootView: sheetView)
 
         let backgroundOverlay = UIView()
@@ -231,6 +236,15 @@ class MainPageController: UIViewController {
 //                self.viewModel.fetchSongs()
             }
         )
+    }
+    
+    private func loadSongList() {
+        for view in songsList.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+        for song in viewModel.songs {
+            songsList.addArrangedSubview(SongsListItem(name: song.projectName))
+        }
     }
 
 

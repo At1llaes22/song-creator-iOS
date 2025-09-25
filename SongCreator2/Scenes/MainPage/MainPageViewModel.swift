@@ -32,7 +32,6 @@ class MainPageViewModel: MainPageViewModelProtocol {
     func fetchSongs() {
         self.songs = service.fetchAllSongs()
         print("Songs fetched: \(self.songs)")
-        
     }
     
     

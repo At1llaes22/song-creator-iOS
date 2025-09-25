@@ -8,6 +8,8 @@ import SwiftUI
 
 public struct AppDropdown: View {
     
+    //TODO: MAKE IT SCROLLABLE, NOW IT SELECTS INSTANTLY // FIX THE COLORS
+    
     let options: [String]
     
     var menuWdith: CGFloat  =  150

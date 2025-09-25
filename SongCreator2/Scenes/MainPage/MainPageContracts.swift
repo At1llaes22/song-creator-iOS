@@ -7,6 +7,7 @@
 
 protocol MainPageViewModelProtocol {
     var delegate : MainPageViewModelDelegate? { get set }
+    var songs : [SongModel] { get set }
     func makeRequest()
     func fetchSongs()
     func createSong(songModel: SongModel)
