@@ -11,6 +11,7 @@ struct AddSongBottomSheet: View {
     var pointerX: CGFloat = 0
     @State private var isPresented = false
     @State private var songName = ""
+    @ObservedObject var viewModel: AddSongBottomSheetViewModel
     
     var body: some View {
         VStack {
@@ -28,6 +29,8 @@ struct AddSongBottomSheet: View {
                     Button("Save") {
                         print("Saving: \(songName)")
                         isPresented = false
+                        viewModel.onAddSong(songName: songName)
+                        
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(songName.isEmpty)
