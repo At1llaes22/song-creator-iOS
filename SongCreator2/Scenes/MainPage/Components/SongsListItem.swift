@@ -25,10 +25,9 @@ class SongsListItem: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
-        stackView.backgroundColor = .black
-//        stackView.frame = CGRectInset(self.frame, -borderWidth, -borderWidth),
-        stackView.layer.borderColor = UIColor.white().cgColor
-        stackView.layer.borderWidth = 1;
+        stackView.backgroundColor = UIColor.adaptiveBackground()
+        stackView.layer.borderColor = UIColor.adaptiveBorder().cgColor
+        stackView.layer.borderWidth = 1
         stackView.layer.cornerRadius = UIConstants.genericCornerRadius
         stackView.spacing = 4
         stackView.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -42,9 +41,9 @@ class SongsListItem: UIView {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "music.note", withConfiguration: UIImage.SymbolConfiguration(pointSize: 28, weight: .semibold))
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .systemBlue
+        imageView.tintColor = UIColor.systemBlue()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .red
+        imageView.backgroundColor = UIColor.clear
         return imageView
     }()
     
@@ -52,8 +51,7 @@ class SongsListItem: UIView {
         let label = UILabel()
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 17)
-        label.textColor = .systemPurple
-        label.textAlignment = .center
+        label.textColor = UIColor.adaptiveLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

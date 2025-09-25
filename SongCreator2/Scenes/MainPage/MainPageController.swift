@@ -13,7 +13,8 @@ class MainPageController: UIViewController {
     
     
     var viewModel: MainPageViewModelProtocol
-        
+    private var songs: [SongModel] = []
+            
         
     private let circularButtonWidth: CGFloat
 
@@ -32,7 +33,7 @@ class MainPageController: UIViewController {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "globe")
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .systemBlue
+        imageView.tintColor = UIColor.systemBlue()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -42,6 +43,7 @@ class MainPageController: UIViewController {
         label.text = "Songs:"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 17)
+        label.textColor = UIColor.adaptiveLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -71,9 +73,10 @@ class MainPageController: UIViewController {
         let button = UIButton()
         
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = UIColor.white()
-        button.layer.borderColor = UIColor.white().cgColor
+        button.tintColor = UIColor.adaptiveWhite()
+        button.layer.borderColor = UIColor.adaptiveBorder().cgColor
         button.layer.borderWidth = 2
+        button.backgroundColor = UIColor.systemBlue()
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addSongTapped), for: .touchUpInside)
@@ -83,11 +86,12 @@ class MainPageController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.fetchSongs()
         setupUI()
     }
     
     private func setupUI() {
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor.adaptiveBackground()
         title = "Song Creator"
         
         stackView.addArrangedSubview(imageView)
@@ -128,9 +132,10 @@ class MainPageController: UIViewController {
         let hosting = UIHostingController(rootView: sheetView)
 
         let backgroundOverlay = UIView()
-        backgroundOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        backgroundOverlay.backgroundColor = UIColor.adaptiveBlack().withAlphaComponent(0.3)
         backgroundOverlay.frame = view.bounds
         backgroundOverlay.alpha = 0
+        backgroundOverlay.tag = 999 // Tag to identify the overlay
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
         backgroundOverlay.addGestureRecognizer(tapGesture)
@@ -140,7 +145,7 @@ class MainPageController: UIViewController {
         view.addSubview(hosting.view)
         hosting.didMove(toParent: self)
 
-        let targetHeight: CGFloat = 300
+        let targetHeight: CGFloat = 500
         let targetY = view.bounds.height - targetHeight - 92
 
         let initialY = buttonCenterY - targetHeight/2
@@ -166,7 +171,6 @@ class MainPageController: UIViewController {
                 backgroundOverlay.alpha = 1
                 hosting.view.transform = .identity
                 hosting.view.layer.cornerRadius = 20
-                hosting.view.backgroundColor = .black.withAlphaComponent(1.0)
                 
                 hosting.view.frame = CGRect(
                     x: 0,
@@ -188,12 +192,12 @@ class MainPageController: UIViewController {
 
 //        let hosting = UIHostingController(rootView: sheetView)
 
-        let targetHeight: CGFloat = 300
+        let targetHeight: CGFloat = 500
         let targetY = view.bounds.height - targetHeight - 92
 
         let initialY = buttonCenterY - targetHeight/2
         
-        let backgroundOverlay = view.subviews.first { $0.backgroundColor == UIColor.black.withAlphaComponent(0.3) }
+        let backgroundOverlay = view.subviews.first { $0.tag == 999 }
         guard let hosting = children.first(where: { $0 is UIHostingController<AddSongBottomSheet> }) as? UIHostingController<AddSongBottomSheet>  else { return  }
 
         
@@ -222,7 +226,9 @@ class MainPageController: UIViewController {
                 hosting.willMove(toParent: nil)
                 hosting.view.removeFromSuperview()
                 hosting.removeFromParent()
-                self.viewModel.fetchSongs()
+                // Ensure the view is interactive again
+                self.view.isUserInteractionEnabled = true
+//                self.viewModel.fetchSongs()
             }
         )
     }
