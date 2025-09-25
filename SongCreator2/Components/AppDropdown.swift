@@ -12,8 +12,8 @@ public struct AppDropdown: View {
     
     let options: [String]
     
-    var menuWdith: CGFloat  =  150
-    var buttonHeight: CGFloat  =  50
+    var menuWdith: CGFloat  =  160
+    var buttonHeight: CGFloat  =  40
     var maxItemDisplayed: Int  =  3
     
     @Binding  var selectedOptionIndex: Int
@@ -48,13 +48,7 @@ public struct AppDropdown: View {
                     ScrollView {
                         LazyVStack(spacing: 0) {
                             ForEach(0..<options.count, id: \.self) { index in
-                                Button(action: {
-                                    withAnimation {
-                                        selectedOptionIndex = index
-                                        showDropdown.toggle()
-                                    }
-                                    
-                                }, label: {
+                                Button(action: {}, label: {
                                     HStack {
                                         Text(options[index])
                                         Spacer()
@@ -65,6 +59,21 @@ public struct AppDropdown: View {
                                     }
                                     
                                 })
+                                .simultaneousGesture(
+                                        LongPressGesture()
+                                            .onEnded { _ in
+                                                print("Loooong")
+                                            }
+                                    )
+                                    .highPriorityGesture(
+                                        TapGesture()
+                                            .onEnded { _ in
+                                                withAnimation {
+                                                    selectedOptionIndex = index
+                                                    showDropdown.toggle()
+                                                }
+                                            }
+                                    )
                                 .padding(.horizontal, 20)
                                 .frame(width: menuWdith, height: buttonHeight, alignment: .leading)
                                 
