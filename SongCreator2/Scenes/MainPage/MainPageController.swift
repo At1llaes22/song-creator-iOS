@@ -243,8 +243,16 @@ class MainPageController: UIViewController {
             view.removeFromSuperview()
         }
         for song in viewModel.songs {
-            songsList.addArrangedSubview(SongsListItem(name: song.projectName))
+            let songItem = SongsListItem(name: song.projectName) { [weak self] in
+                self?.navigateToSongDetail(projectName: song.projectName)
+            }
+            songsList.addArrangedSubview(songItem)
         }
+    }
+    
+    private func navigateToSongDetail(projectName: String) {
+        let detailController = SongDetailPageBuilder.create(with: projectName)
+        navigationController?.pushViewController(detailController, animated: true)
     }
 
 

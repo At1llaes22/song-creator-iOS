@@ -8,17 +8,37 @@ import UIKit
 
 class SongsListItem: UIView {
     let songName: String
+    var onTap: (() -> Void)?
     
-    required init(name: String){
+    required init(name: String, onTap: (() -> Void)? = nil){
             songName = name
+            self.onTap = onTap
             super.init(frame: CGRect.zero)
             setupConstraints()
-
+            setupGesture()
         }
 
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+    
+    private func setupGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(tapGesture)
+        isUserInteractionEnabled = true
+    }
+    
+    @objc private func handleTap() {
+        // Visual feedback
+        UIView.animate(withDuration: 0.1, animations: {
+            self.alpha = 0.6
+        }) { _ in
+            UIView.animate(withDuration: 0.1) {
+                self.alpha = 1.0
+            }
+        }
+        onTap?()
+    }
     
     
     private let stackView: UIStackView = {
