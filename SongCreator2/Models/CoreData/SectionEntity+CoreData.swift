@@ -28,7 +28,9 @@ extension SectionEntity {
 extension SectionEntity {
     var key: Key? {
         get {
-            guard ((keyCenterRaw?.isEmpty) == nil) else { return nil }
+            guard ((keyCenterRaw?.isEmpty) == false) else { return nil }
+            guard ((modeRaw?.isEmpty) == false) else { return nil }
+
             //TODO: fix force unwraps
             let pitch = PitchClass.from(string: keyCenterRaw!)
             let mode = Mode.from(string: modeRaw!)

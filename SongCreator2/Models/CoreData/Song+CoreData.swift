@@ -45,6 +45,8 @@ extension SongEntity {
     var key: Key? {
         get {
             guard ((keyCenterRaw?.isEmpty) == nil) else { return nil }
+            guard ((modeRaw?.isEmpty) == false) else { return nil }
+
             //TODO: fix force unwraps
             let pitch = PitchClass.C
             let mode = Mode.major
