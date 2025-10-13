@@ -57,8 +57,9 @@ struct AddSongBottomSheet: View {
                             .buttonStyle(.borderedProminent)
                             .disabled(projectName.isEmpty)
                         
-                        HStack(spacing: 8){
+                        HStack(alignment: .center, spacing: 12){
                             AppDropdown(options: noteList, selectedOptionIndex: $selectedNoteIndex, showDropdown: $showNoteDropdown)
+                
                             AppDropdown(options: accidentalList, selectedOptionIndex: $selectedAccidentalIndex, showDropdown: $showAccidentalDropdown)
                         }.zIndex(999)
                         

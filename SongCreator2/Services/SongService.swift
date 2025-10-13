@@ -21,11 +21,6 @@ class SongService {
         return songEntity
     }
     
-    func addSection(to song: SongEntity, sectionModel: SectionModel) {
-        let sectionEntity = SectionEntity.from(sectionModel: sectionModel, context: context)
-        song.addToSections(sectionEntity)
-        saveContext()
-    }
     
     func fetchAllSongs() -> [SongModel] {
         let request: NSFetchRequest<SongEntity> = SongEntity.fetchRequest()
@@ -54,27 +49,68 @@ class SongService {
         }
     }
     
-    func updateSong(_ songEntity: SongEntity, with songModel: SongModel) {
-        songEntity.projectName = songModel.projectName
-        songEntity.songNames = songModel.songNames
-        songEntity.bpm = Int32(songModel.bpm ?? 120)
-        songEntity.timeSignature = songModel.timeSignature
+    func updateSong(projectName: String, with songModel: SongModel) {
+        guard let entity = fetchSongEntity(byProjectName: projectName) else {
+            print("Error: Song not found for update")
+            return
+        }
+        
+        entity.projectName = songModel.projectName
+        entity.songNames = songModel.songNames
+        entity.bpm = Int32(songModel.bpm ?? 120)
+        entity.timeSignature = songModel.timeSignature
         
         if let keyModel = songModel.key {
-            songEntity.key = keyModel
+            entity.key = keyModel
         }
         
         saveContext()
     }
     
-    func deleteSong(_ songEntity: SongEntity) {
-        context.delete(songEntity)
+    func addSection(toSongNamed projectName: String, section: SectionModel) {
+        guard let songEntity = fetchSongEntity(byProjectName: projectName) else {
+            print("Error: Song not found for adding section")
+            return
+        }
+        
+        let sectionEntity = SectionEntity.from(sectionModel: section, context: context)
+        songEntity.addToSections(sectionEntity)
         saveContext()
     }
     
-    func deleteSection(_ sectionEntity: SectionEntity) {
-        context.delete(sectionEntity)
+    func deleteSection(fromSongNamed projectName: String, at index: Int) {
+        guard let songEntity = fetchSongEntity(byProjectName: projectName),
+              let sectionsArray = songEntity.sections?.array as? [SectionEntity],
+              index < sectionsArray.count else {
+            print("Error: Section not found for deletion")
+            return
+        }
+        
+        context.delete(sectionsArray[index])
         saveContext()
+    }
+    
+    func deleteSong(projectName: String) {
+        guard let entity = fetchSongEntity(byProjectName: projectName) else {
+            print("Error: Song not found for deletion")
+            return
+        }
+        context.delete(entity)
+        saveContext()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func fetchSongEntity(byProjectName name: String) -> SongEntity? {
+        let request: NSFetchRequest<SongEntity> = SongEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "projectName == %@", name)
+        
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Error fetching song entity: \(error)")
+            return nil
+        }
     }
     
     private func saveContext() {

@@ -39,7 +39,13 @@ public struct AppDropdown: View {
                     }
                 })
                 .padding(.horizontal, 20)
-                .frame(width: menuWdith, height: buttonHeight, alignment: .leading)
+                .frame(width: menuWdith, height: buttonHeight, alignment: .leading,)
+                .cornerRadius(UIConstants.smallerCornerRadius)
+                .overlay(
+                    RoundedRectangle(cornerRadius: UIConstants.smallerCornerRadius)
+                        .stroke(Color.adaptiveBlack, lineWidth: 1)
+                )
+                
                 
                 
                 // selection menu
@@ -94,7 +100,7 @@ public struct AppDropdown: View {
                 
             }
             .foregroundStyle(Color.adaptiveBlack)
-            .background(RoundedRectangle(cornerRadius: 16).fill(Color.adaptiveWhite))
+            .background(RoundedRectangle(cornerRadius: UIConstants.genericCornerRadius).fill(Color.adaptiveSecondaryBackground))
             
         }
         .frame(width: menuWdith, height: buttonHeight, alignment: .top)
